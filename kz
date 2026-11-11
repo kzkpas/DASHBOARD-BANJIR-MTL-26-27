@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Dashboard Banjir MTL - KKM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <style>
+    :root {
+      --who-blue: #005b9f; --bg-body: #f1f5f9; --bg-card: #ffffff;
+      --text-main: #334155; --text-muted: #64748b; --text-dark: #0f172a;
+      --border-color: #e2e8f0; --accent-red: #ef4444; --accent-amber: #f59e0b;
+      --accent-green: #10b981; --accent-blue: #3b82f6;
+    }
+    
+    body { background-color: var(--bg-body); font-family: 'Inter', sans-serif; color: var(--text-main); overflow-x: hidden; }
+    .sidebar { min-height: 100vh; background-color: #0b1120; color: white; padding-top: 20px; border-right: 1px solid #1e293b;}
+    .sidebar a { color: #94a3b8; text-decoration: none; display: block; padding: 12px 20px; font-weight: 500; font-size: 0.875rem; letter-spacing: 0.025em; transition: 0.2s;}
+    .sidebar a:hover, .sidebar a.active { background-color: #1e293b; color: #f8fafc; border-left: 3px solid var(--who-blue);}
+    .brand-title { color: #f8fafc; font-weight: 800; font-size: 1.15rem; letter-spacing: 1px; }
+    .top-header { background-color: var(--bg-card); padding: 20px 30px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;}
+    .page-title { margin: 0; font-weight: 700; color: var(--text-dark); font-size: 1.5rem; letter-spacing: -0.025em; }
+    .page-subtitle { margin: 0; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;}
+    .kpi-card { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05); padding: 1.25rem; height: 100%; display: flex; flex-direction: column; justify-content: space-between; transition: 0.2s;}
+    .kpi-card:hover { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); transform: translateY(-2px);}
+    .kpi-source { font-size: 0.65rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; display: block;}
+    .kpi-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.025em; margin-bottom: 0.25rem;}
+    .kpi-value { font-size: 2.25rem; font-weight: 800; color: var(--text-dark); line-height: 1.1; letter-spacing: -0.025em;}
+    .border-blue { border-top: 3px solid var(--accent-blue); } .border-amber { border-top: 3px solid var(--accent-amber); }
+    .border-red { border-top: 3px solid var(--accent-red); } .border-green { border-top: 3px solid var(--accent-green); }
+    .summary-banner { background-color: #1e293b; color: white; border-radius: 8px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-left: 4px solid var(--who-blue);}
+    .custom-table { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);}
+    .custom-table thead th { background-color: #f8fafc; color: #475569; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); padding: 12px 15px;}
+    .custom-table tbody td { font-size: 0.875rem; color: var(--text-main); padding: 12px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle;}
+    .status-pill { font-size: 0.65rem; font-weight: 700; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; display: inline-flex; align-items: center;}
+    .pill-red { background-color: #fee2e2; color: #991b1b; } .pill-amber { background-color: #fef3c7; color: #92400e; } .pill-green { background-color: #d1fae5; color: #065f46; }
+    .pulse-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ef4444; margin-right: 6px; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+    .list-item { padding: 15px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;}
+    .list-item:last-child { border-bottom: none; }
+    @media (max-width: 767.98px) {
+      .sidebar { display:none; } .sidebar.show { display: block; position: absolute; width: 100%; z-index: 1040; }
+      .top-header { flex-direction: column; align-items: flex-start; padding: 15px;}
+      .filter-box { margin-top: 15px; width: 100%; }
+    }
+    #laporan-rasmi { display: none; }
+    @media print {
+      .sidebar, .top-header, .d-md-none, .filter-box, #dataContainer, #loadingOverlay { display: none !important; }
+      .col-md-9, .col-lg-10 { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      #laporan-rasmi { display: block !important; font-family: "Arial", sans-serif; color: black !important; font-size: 11pt; line-height: 1.5; background: white; text-align: justify; }
+      body { background-color: white !important; }
+      h4, h5 { font-weight: bold; margin-bottom: 5px; color: black; } p { margin-bottom: 15px; }
+      .section-title { font-weight: bold; text-transform: uppercase; margin-top: 20px; margin-bottom: 5px; } ul { margin-top: 5px; margin-bottom: 15px; } li { margin-bottom: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="d-md-none bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+    <div class="fw-bold" style="letter-spacing:1px;">CPRC <span style="color: var(--who-blue);">BANJIR</span></div>
+    <button class="btn btn-outline-light btn-sm" onclick="document.getElementById('sidebarMenu').classList.toggle('show')"><i class="fas fa-bars"></i></button>
+  </div>
+
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 sidebar d-md-block">
+        <div class="text-center mb-5 px-3 mt-2 d-none d-md-block">
+          <div class="brand-title">CPRC KEBANGSAAN</div>
+          <small style="color: #3b82f6; font-weight:600; letter-spacing:0.5px;">Pusat Maklumat Banjir</small>
+        </div>
+        <a href="javascript:void(0)" class="menu-item active" onclick="switchTab('exec')"><i class="fas fa-chart-pie me-3"></i> Ringkasan Eksekutif</a>
+        <a href="javascript:void(0)" class="menu-item" onclick="switchTab('survelans')"><i class="fas fa-shield-virus me-3"></i> Survelans Penyakit</a>
+        <a href="javascript:void(0)" class="menu-item" onclick="switchTab('logistik')"><i class="fas fa-boxes me-3"></i> Infra & Logistik</a>
+        <a href="javascript:void(0)" class="menu-item" onclick="switchTab('rentan')"><i class="fas fa-heartbeat me-3"></i> Kumpulan Rentan</a>
+        <a href="javascript:void(0)" class="menu-item" onclick="switchTab('anggota')"><i class="fas fa-user-md me-3"></i> Status Anggota</a>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 pb-5" style="min-height: 100vh;">
+        <div class="top-header">
+          <div>
+            <h1 class="page-title" id="pageTitle">Ringkasan Eksekutif Bencana</h1>
+            <p class="page-subtitle" id="pageSubtitle">Satu muka untuk status utama, perubahan semasa dan tindakan pengurusan.</p>
+          </div>
+          <div class="filter-box d-flex align-items-center gap-3">
+            <div class="text-end d-none d-md-block">
+              <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em;">Terkini</div>
+              <div style="font-size: 0.8rem; color: var(--text-dark); font-weight: 600;" id="txt-tarikh">Memuat turun...</div>
+            </div>
+            <select id="stateFilter" class="form-select form-select-sm border-secondary fw-semibold shadow-sm" style="width: auto; min-width: 150px;" onchange="renderUI()">
+              <option value="Nasional">Nasional (Semua Negeri)</option>
+            </select>
+            <button class="btn btn-sm text-white shadow-sm d-flex align-items-center gap-2" style="background-color: var(--who-blue);" onclick="generateLaporan()">
+              <i class="fas fa-file-pdf"></i> <span class="d-none d-md-inline">Jana Laporan</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div id="loadingOverlay" class="text-center py-5">
+            <div class="spinner-border" style="color: var(--who-blue); width: 2.5rem; height: 2.5rem;" role="status"></div>
+            <h6 class="mt-3 text-muted font-weight-bold">Menyelaras Data API Pangkalan...</h6>
+          </div>
+
+          <div id="dataContainer" style="display: none;">
+            
+            <div id="exec" class="content-section">
+              <div class="summary-banner mb-4">
+                <div><h6 class="mb-1 fw-bold" id="banner-text-1" style="font-size:1.05rem;">fasiliti masih terjejas — - tutup, - pindah.</h6><div style="font-size: 0.8rem; color: #94a3b8;">Sila semak senarai fasiliti alternatif dan tindakan pemulihan di bawah.</div></div>
+                <div class="text-end"><div style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Status Operasi</div><div class="fw-bold" style="font-size:1.2rem;"><span id="banner-terjejas" class="text-danger">0</span> Terjejas <span class="mx-2" style="color:#475569;">|</span> <span id="banner-pulih" class="text-success">0</span> Pulih</div></div>
+              </div>
+              <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6"><div class="kpi-card border-blue"><span class="kpi-source" id="lbl-tarikh-mangsa" style="font-size: 0.6rem;">JADUAL 1.1</span><div class="kpi-label">Jumlah Mangsa</div><div class="kpi-value text-primary" id="kpi-mangsa">-</div></div></div>
+                <div class="col-md-3 col-6"><div class="kpi-card border-amber"><span class="kpi-source" id="lbl-tarikh-pps" style="font-size: 0.6rem;">JADUAL 1.1</span><div class="kpi-label">PPS Aktif</div><div class="kpi-value text-warning" style="color:#d97706 !important;" id="kpi-pps">-</div></div></div>
+                <div class="col-md-3 col-6"><div class="kpi-card border-red"><span class="kpi-source">Jadual 2.1</span><div class="kpi-label text-danger">Tutup Operasi</div><div class="kpi-value text-danger" id="kpi-f-tutup">-</div></div></div>
+                <div class="col-md-3 col-6"><div class="kpi-card border-green"><span class="kpi-source">Jadual 2.1</span><div class="kpi-label text-success">Beroperasi Semula</div><div class="kpi-value text-success" id="kpi-f-operasi">-</div></div></div>
+              </div>
+              <div class="row g-3 mb-4">
+                <div class="col-md-6"><div class="kpi-card"><div class="kpi-label mb-3 text-dark"><i class="fas fa-chart-line me-2 text-warning"></i>Trend PPS Dibuka</div><div style="height:220px;"><canvas id="chartPPS"></canvas></div></div></div>
+                <div class="col-md-6"><div class="kpi-card"><div class="kpi-label mb-3 text-dark"><i class="fas fa-chart-area me-2 text-primary"></i>Trend Mangsa Di PPS</div><div style="height:220px;"><canvas id="chartMangsa"></canvas></div></div></div>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6"><div class="d-flex justify-content-between align-items-center mb-3"><h6 class="mb-0 fw-bold" style="font-size:0.9rem;">TINDAKAN DIPERLUKAN (TERJEJAS)</h6><span class="badge bg-danger rounded-pill px-2 py-1" style="font-size:0.65rem;">KRITIKAL</span></div><div class="custom-table p-0" id="list-fasiliti-terjejas"></div></div>
+                <div class="col-md-6"><div class="d-flex justify-content-between align-items-center mb-3"><h6 class="mb-0 fw-bold" style="font-size:0.9rem;">STATUS PEMULIHAN (BEROPERASI)</h6><span class="badge bg-success rounded-pill px-2 py-1" style="font-size:0.65rem;">SELESAI</span></div><div class="custom-table p-0" id="list-fasiliti-pulih"></div></div>
+              </div>
+            </div>
+
+            <div id="survelans" class="content-section" style="display:none;">
+              <div class="row g-3 mb-4">
+                <div class="col-md-4"><div class="kpi-card border-blue"><span class="kpi-source">Jadual 4.1</span><div class="kpi-label">Mangsa Diperiksa</div><div class="kpi-value" id="k-sur-1">-</div></div></div>
+                <div class="col-md-4"><div class="kpi-card border-red"><span class="kpi-source">Jadual 4.2</span><div class="kpi-label">Kes Penyakit Dikesan</div><div class="kpi-value text-danger" id="k-sur-2">-</div><div id="k-sur-2-detail" style="font-size: 0.75rem; color: #ef4444; margin-top: 8px; font-weight: 500; line-height: 1.4;"></div></div></div>
+                <div class="col-md-4"><div class="kpi-card border-amber"><span class="kpi-source">Laporan 5.2</span><div class="kpi-label">PPS Diperiksa Vektor</div><div class="kpi-value" id="k-sur-3">-</div></div></div>
+              </div>
+              <div class="table-state-container custom-table"><div class="p-3 border-bottom bg-white"><div class="kpi-label mb-0 text-dark">Data Agregat Mengikut Negeri</div></div><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Negeri</th><th>Mangsa Diperiksa</th><th>Kes Penyakit</th><th>Diperiksa Vektor</th></tr></thead><tbody id="tbl-survelans"></tbody></table></div></div>
+            </div>
+
+            <div id="logistik" class="content-section" style="display:none;">
+              <div class="row g-3 mb-4">
+                <div class="col-md-3"><div class="kpi-card border-green"><span class="kpi-source">Jadual 3.1</span><div class="kpi-label">Pasukan RAT/RRT</div><div class="kpi-value" id="k-inf-1">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-blue"><span class="kpi-source">Laporan 5.1</span><div class="kpi-label">Pelanggaran Sampel Air</div><div class="kpi-value" id="k-inf-2">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-amber"><span class="kpi-source">Laporan 5.3</span><div class="kpi-label">Premis Diperiksa</div><div class="kpi-value" id="k-inf-3">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-blue"><span class="kpi-source">Jadual 5.1</span><div class="kpi-label">Pendidikan Kesihatan</div><div class="kpi-value" id="k-inf-4">-</div></div></div>
+              </div>
+            </div>
+
+            <div id="rentan" class="content-section" style="display:none;">
+              <div class="row g-3 mb-4">
+                <div class="col-md-3"><div class="kpi-card border-blue"><span class="kpi-source">Jadual 4.3</span><div class="kpi-label">Mangsa Masuk Wad</div><div class="kpi-value" id="k-ren-1">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-red"><span class="kpi-source">Laporan 4.4</span><div class="kpi-label">Dialisis Terjejas</div><div class="kpi-value text-danger" id="k-ren-2">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-green"><span class="kpi-source">Jadual 4.4</span><div class="kpi-label">Intervensi MHPSS</div><div class="kpi-value" id="k-ren-3">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-amber"><span class="kpi-source">Jadual 4.5</span><div class="kpi-label">Saringan Mental</div><div class="kpi-value" id="k-ren-4">-</div></div></div>
+              </div>
+            </div>
+            
+            <div id="anggota" class="content-section" style="display:none;">
+              <div class="row g-3 mb-4">
+                <div class="col-md-3"><div class="kpi-card border-red"><div class="kpi-label">Total Terjejas</div><div class="kpi-value" id="k-st-1">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-green"><div class="kpi-label">Hadir Bekerja</div><div class="kpi-value text-success" id="k-st-2">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-red"><div class="kpi-label">Tidak Hadir</div><div class="kpi-value" id="k-st-3">-</div></div></div>
+                <div class="col-md-3"><div class="kpi-card border-amber"><div class="kpi-label">Berada di PPS</div><div class="kpi-value" id="k-st-4">-</div></div></div>
+              </div>
+            </div>
+            
+          </div> 
+          <div id="laporan-rasmi"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    var globalData = null;
+    
+    // ----------------------------------------------------
+    // MASUKKAN API URL ANDA DI SINI
+    // ----------------------------------------------------
+    const API_URL = 'https://script.google.com/macros/s/AKfycbx3mEqsfdm9qsF1O39x1YD2pL9LhEoJLm-0mFFO61N_Bqgb5zEsvBm7BplRo3sjCBJY/exec'; 
+
+    function fmt(num) { 
+      if (num && typeof num === 'object' && num.total !== undefined) { num = num.total; }
+      let n = Number(num);
+      if (isNaN(n)) return "0";
+      return n.toLocaleString('ms-MY'); 
+    }
+
+    function setWaktuTerkini() {
+      const d = new Date();
+      let tarikh = d.toLocaleDateString('ms-MY', { day:'2-digit', month:'2-digit', year:'numeric' });
+      let masa = d.toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', hour12: true });
+      document.getElementById('txt-tarikh').innerText = `${tarikh} ${masa}`;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).style.display = 'block';
+      event.currentTarget.classList.add('active');
+    }
+
+    function generateLaporan() {
+      if(!globalData) return;
+      const d = new Date();
+      const tarikhSurat = d.toLocaleDateString('ms-MY', { day:'numeric', month:'long', year:'numeric' });
+      const masaSurat = d.toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', hour12: true });
+      let dNas = globalData.nasional;
+      
+      let negeriTerjejas = [];
+      globalData.senaraiNegeri.forEach(st => { if(globalData.negeri[st].mangsa > 0 || globalData.negeri[st].pps > 0) negeriTerjejas.push(st); });
+      let teksNegeri = negeriTerjejas.length > 0 ? negeriTerjejas.join(', ') : "Tiada negeri aktif";
+
+      let countTutup = 0, countPindah = 0, countOperasi = 0;
+      globalData.fasiliti.forEach(f => {
+        let sc = f.status.toUpperCase();
+        if(sc.includes('PINDAH')) countPindah++; else if(sc.includes('TUTUP') || sc.includes('TIDAK')) countTutup++; else countOperasi++;
+      });
+      let jumlahFasiliti = globalData.fasiliti.length;
+
+      let senaraiFasilitiHTML = (jumlahFasiliti > 0) ? `<ul style="font-size:10pt;">${globalData.fasiliti.map(f => `<li><b>${f.nama} (${f.negeri})</b> - Status: ${f.status}</li>`).join('')}</ul>` : `<p><i>Tiada rekod fasiliti terjejas dilaporkan setakat ini.</i></p>`;
+
+      let pecahanPenyakit = [];
+      if(dNas.penyakit.ari > 0) pecahanPenyakit.push(`${dNas.penyakit.ari} kes ARI`);
+      if(dNas.penyakit.skin > 0) pecahanPenyakit.push(`${dNas.penyakit.skin} kes Jangkitan Kulit`);
+      if(dNas.penyakit.age > 0) pecahanPenyakit.push(`${dNas.penyakit.age} kes AGE`);
+      if(dNas.penyakit.konj > 0) pecahanPenyakit.push(`${dNas.penyakit.konj} kes Konjunktivitis`);
+      if(dNas.penyakit.demam > 0) pecahanPenyakit.push(`${dNas.penyakit.demam} kes Demam`);
+      let teksPenyakit = (dNas.penyakit.total > 0) ? ` Pecahan kes penyakit yang dikesan adalah seperti berikut: <strong>${pecahanPenyakit.join(', ')}</strong>.` : "";
+
+      let senaraiWadHTML = ""; let jumlahWad = dNas.wad ? dNas.wad.total : 0;
+      if (jumlahWad > 0 && dNas.wad.senarai.length > 0) {
+         let barisWad = dNas.wad.senarai.map(w => {
+            let jantina = [];
+            if(w.lelaki > 0) jantina.push(`${w.lelaki} Lelaki Dewasa`); if(w.perempuan > 0) jantina.push(`${w.perempuan} Perempuan Dewasa`); if(w.kanak > 0) jantina.push(`${w.kanak} Kanak-Kanak`);
+            return `<li><b>${w.hospital}</b> - ${w.jumlah} pesakit [${jantina.join(', ')}]${w.sebab ? ` <i>(${w.sebab})</i>` : ""}</li>`;
+         }).join('');
+         senaraiWadHTML = `<ul style="font-size:10pt; margin-top:5px; margin-bottom:10px;">${barisWad}</ul>`;
+      }
+
+      let htmlLaporan = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h4 style="margin: 0; font-size: 14pt;">LAPORAN HARIAN</h4><h4 style="margin: 0; font-size: 14pt;">BILIK GERAKAN BANJIR CPRC KEBANGSAAN</h4>
+          <p style="margin-top: 5px; font-weight: bold; font-size: 11pt;">TARIKH: ${tarikhSurat.toUpperCase()} &nbsp;|&nbsp; MASA: ${masaSurat.toUpperCase()}</p>
+        </div>
+        <div class="section-title">1.0 SITUASI SEMASA BANJIR</div>
+        <p>Pada jam ${masaSurat}, ${tarikhSurat}, terdapat <strong>${negeriTerjejas.length} buah negeri</strong> yang terkesan akibat banjir iaitu <strong>${teksNegeri}</strong>. Terdapat seramai <strong>${fmt(dNas.mangsa)} mangsa</strong> banjir telah direkodkan di peringkat nasional dengan jumlah Pusat Pemindahan Sementara (PPS) yang aktif sebanyak <strong>${fmt(dNas.pps)} buah PPS</strong>.</p>
+        <div class="section-title">2.0 FASILITI KESIHATAN TERJEJAS</div>
+        <p>Sejumlah <strong>${jumlahFasiliti} fasiliti kesihatan</strong> telah dilaporkan terjejas akibat banjir. Daripada jumlah tersebut, sebanyak <strong>${countTutup} fasiliti ditutup operasi sepenuhnya</strong>, <strong>${countPindah} fasiliti terpaksa dipindahkan lokasinya</strong>, dan <strong>${countOperasi} fasiliti masih beroperasi seperti biasa</strong> walaupun dilanda banjir.</p>
+        ${senaraiFasilitiHTML}
+        <div class="section-title">3.0 PASUKAN PERUBATAN KECEMASAN (EMT) DI PPS</div>
+        <p>Sebanyak <strong>${fmt(dNas.pasukan)} Pasukan Perubatan Kecemasan (EMT) / RAT / RRT</strong> telah dimobilisasi ke PPS yang dibuka untuk memberikan perkhidmatan rawatan perubatan awam dan pencegahan wabak penyakit berjangkit kepada mangsa banjir.</p>
+        <div class="section-title">4.0 PERKHIDMATAN PENJAGAAN KESIHATAN SEMASA BANJIR</div>
+        <p>Setakat ini, seramai <strong>${fmt(dNas.diperiksa)} mangsa</strong> telah diperiksa di PPS. Terdapat <strong>${fmt(dNas.penyakit.total)} kes penyakit</strong> telah dikesan secara kumulatif dalam kalangan mangsa di seluruh fasiliti dan PPS.${teksPenyakit}</p>
+        <p style="margin-bottom:2px;">Selain itu, seramai <strong>${fmt(jumlahWad)} pesakit dari PPS</strong> telah dirujuk untuk kemasukan ke wad hospital berikutan komplikasi atau simptom yang memerlukan rawatan lanjut, manakala sebanyak <strong>${fmt(dNas.dialisis)} kemudahan pusat dialisis</strong> dilaporkan terjejas operasinya.</p>
+        ${senaraiWadHTML}
+        <p>Bagi perkhidmatan sokongan Kesihatan Mental dan Sokongan Psikososial (MHPSS), pasukan bertugas telah berjaya menjalankan sejumlah <strong>${fmt(dNas.mhpss)} sesi intervensi psikososial</strong> serta <strong>${fmt(dNas.mental)} sesi saringan kesihatan mental</strong> ke atas mangsa.</p>
+        <div class="section-title">5.0 AKTIVITI KESIHATAN AWAM DI PPS</div>
+        <p>Aktiviti perkhidmatan kesihatan awam dan pemantauan persekitaran giat dijalankan. Ini termasuk pemantauan keselamatan kualiti air minum di mana sebanyak <strong>${fmt(dNas.air)} pelanggaran sampel air</strong> dikesan. Bagi aktiviti kawalan Vektor pula, sejumlah <strong>${fmt(dNas.vektor)} PPS</strong> telah selesai dijalankan pemeriksaan vektor. Manakala bagi Unit Keselamatan dan Kualiti Makanan, sejumlah <strong>${fmt(dNas.makanan)} premis makanan</strong> telah dilakukan pemeriksaan berkala.</p>
+        <div class="section-title">6.0 AKTIVITI PENDIDIKAN KESIHATAN</div>
+        <p>Secara kumulatif, sebanyak <strong>${fmt(dNas.pendidikan)} sesi pelbagai aktiviti pendidikan kesihatan</strong> telah dijalankan di kawasan terjejas banjir. Ini merangkumi penyampaian maklumat kesihatan secara terus, promosi kebersihan diri dan persekitaran di lokaliti mangsa yang terlibat.</p>
+        <br><br><table style="width: 100%; text-align: center; margin-top: 30px; font-weight: bold; font-size:10pt;"><tr><td style="width: 33%;">Disediakan oleh:<br><br><br><br>_________________________<br>Sekretariat Bilik Gerakan</td><td style="width: 33%;">Disemak oleh:<br><br><br><br>_________________________<br>Pegawai Penyelaras</td><td style="width: 33%;">Disahkan oleh:<br><br><br><br>_________________________<br>Ketua Penyelaras</td></tr></table>
+      `;
+      document.getElementById('laporan-rasmi').innerHTML = htmlLaporan;
+      window.print();
+    }
+
+    function renderUI() {
+      if(!globalData) return;
+      var sel = document.getElementById('stateFilter').value;
+      var isNas = (sel === 'Nasional');
+      var d = isNas ? globalData.nasional : globalData.negeri[sel];
+      
+      let teksTarikh = globalData.tarikhNadma && globalData.tarikhNadma !== "" ? `JADUAL 1.1 • ${globalData.tarikhNadma}` : "JADUAL 1.1";
+      document.getElementById('lbl-tarikh-mangsa').innerText = teksTarikh; document.getElementById('lbl-tarikh-pps').innerText = teksTarikh;
+      document.getElementById('kpi-mangsa').innerText = fmt(d.mangsa); document.getElementById('kpi-pps').innerText = fmt(d.pps);
+      
+      var fList = globalData.fasiliti; if(!isNas) fList = fList.filter(f => f.negeri === sel);
+      let fTerjejas=[], fPulih=[]; let countTutup=0, countPindah=0, countOperasi=0;
+      fList.forEach(f => {
+        let sc = f.status.toUpperCase();
+        if(sc.includes('TUTUP') || sc.includes('TIDAK') || sc.includes('PINDAH')) { fTerjejas.push(f); if(sc.includes('PINDAH')) countPindah++; else countTutup++; } 
+        else { fPulih.push(f); countOperasi++; }
+      });
+      
+      document.getElementById('kpi-f-tutup').innerText = fmt(countTutup); document.getElementById('kpi-f-operasi').innerText = fmt(countOperasi); 
+      document.getElementById('banner-text-1').innerText = `${fTerjejas.length} fasiliti masih terjejas — ${countTutup} tutup, ${countPindah} pindah.`;
+      document.getElementById('banner-terjejas').innerText = fmt(fTerjejas.length); document.getElementById('banner-pulih').innerText = fmt(countOperasi);
+      renderFasilitiList(fTerjejas, 'list-fasiliti-terjejas', true); renderFasilitiList(fPulih, 'list-fasiliti-pulih', false);
+
+      document.getElementById('k-sur-1').innerText = fmt(d.diperiksa); document.getElementById('k-sur-2').innerText = fmt(d.penyakit.total);
+      
+      let detailHTML = [];
+      if(d.penyakit.ari > 0) detailHTML.push(`ARI: <b>${d.penyakit.ari}</b>`); if(d.penyakit.skin > 0) detailHTML.push(`Skin Inf: <b>${d.penyakit.skin}</b>`);
+      if(d.penyakit.age > 0) detailHTML.push(`AGE: <b>${d.penyakit.age}</b>`); if(d.penyakit.konj > 0) detailHTML.push(`Konjunktivitis: <b>${d.penyakit.konj}</b>`);
+      if(d.penyakit.demam > 0) detailHTML.push(`Demam: <b>${d.penyakit.demam}</b>`);
+      document.getElementById('k-sur-2-detail').innerHTML = detailHTML.length > 0 ? detailHTML.join(' &bull; ') : 'Tiada rekod terperinci.';
+
+      document.getElementById('k-sur-3').innerText = fmt(d.vektor); document.getElementById('k-inf-1').innerText = fmt(d.pasukan);
+      document.getElementById('k-inf-2').innerText = fmt(d.air); document.getElementById('k-inf-3').innerText = fmt(d.makanan);
+      document.getElementById('k-inf-4').innerText = fmt(d.pendidikan); document.getElementById('k-ren-1').innerText = fmt(d.wad ? d.wad.total : 0);
+      document.getElementById('k-ren-2').innerText = fmt(d.dialisis); document.getElementById('k-ren-3').innerText = fmt(d.mhpss);
+      document.getElementById('k-ren-4').innerText = fmt(d.mental); document.getElementById('k-st-1').innerText = fmt(d.staff.total);
+      document.getElementById('k-st-2').innerText = fmt(d.staff.hadir); document.getElementById('k-st-3').innerText = fmt(d.staff.tidakHadir);
+      document.getElementById('k-st-4').innerText = fmt(d.staff.pps);
+
+      document.querySelectorAll('.table-state-container').forEach(el => { el.style.display = isNas ? 'block' : 'none'; });
+      if(isNas) populateStateTables();
+    }
+
+    function renderFasilitiList(arr, containerId, isTerjejas) {
+      let div = document.getElementById(containerId); div.innerHTML = '';
+      if(arr.length === 0) { div.innerHTML = `<div class="text-center p-4 text-muted"><i class="fas fa-check-circle fs-3 text-success mb-2" style="opacity:0.5;"></i><br><span style="font-size:0.85rem;">Tiada rekod setakat ini.</span></div>`; return; }
+      let html = '<div class="px-4 py-2">';
+      arr.forEach(f => {
+        let sc = f.status.toUpperCase(); let bClass = 'pill-green'; let bText = f.status;
+        if(sc.includes('TUTUP') || sc.includes('TIDAK')) { bClass = 'pill-red'; bText = `<span class="pulse-dot"></span>${f.status}`; } else if (sc.includes('PINDAH')) bClass = 'pill-amber';
+        let badge2 = sc.includes("KEDUA") || sc.includes("KALI KE") ? `<span class="badge bg-warning text-dark ms-2" style="font-size:0.6rem;">KALI KE-2</span>` : '';
+        html += `<div class="list-item"><div><div class="fw-bold" style="font-size:0.85rem; color:var(--text-dark);">${f.nama} ${badge2}</div><div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">${f.negeri} &bull; ${f.daerah}</div><div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;"><i class="fas fa-arrow-right me-1"></i> ${f.alternatif !== '-' ? f.alternatif : 'Tiada Maklumat Alternatif'}</div></div><div><div class="status-pill ${bClass}">${bText}</div></div></div>`;
+      });
+      html += '</div>'; div.innerHTML = html;
+    }
+
+    function populateStateTables() {
+      let tSur = '';
+      globalData.senaraiNegeri.forEach(st => {
+        let d = globalData.negeri[st];
+        if(d.diperiksa>0 || d.penyakit.total>0 || d.vektor>0) tSur += `<tr><td class="fw-bold text-dark" style="font-size:0.75rem;">${st}</td><td>${fmt(d.diperiksa)}</td><td>${fmt(d.penyakit.total)}</td><td>${fmt(d.vektor)}</td></tr>`;
+      });
+      document.getElementById('tbl-survelans').innerHTML = tSur || '<tr><td colspan="4" class="text-center text-muted py-4">Tiada Data Direkodkan</td></tr>';
+    }
+
+    window.onload = function() {
+      setWaktuTerkini(); setInterval(setWaktuTerkini, 60000); Chart.register(ChartDataLabels);
+      
+      // FUNGSI BARU: Fetch JSON API dari Web App URL
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(res => {
+          globalData = res;
+          let sel = document.getElementById('stateFilter');
+          res.senaraiNegeri.forEach(st => { let opt = document.createElement('option'); opt.value = st; opt.innerText = st; sel.appendChild(opt); });
+          
+          document.getElementById('loadingOverlay').style.display = 'none';
+          document.getElementById('dataContainer').style.display = 'block';
+          renderUI();
+          
+          let chartOptions = { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 25 } }, plugins: { legend: { display: false }, datalabels: { color: '#334155', align: 'top', offset: 4, font: { weight: 'bold', size: 11 } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#f1f5f9' }, beginAtZero: true } } };
+          chartObj1 = new Chart(document.getElementById('chartPPS').getContext('2d'), { type: 'line', data: { labels: res.timeline.pps.labels, datasets: [{ data: res.timeline.pps.data, borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', borderWidth: 2, fill: true, pointRadius: 3, pointBackgroundColor: '#fff', tension:0.3 }] }, options: chartOptions });
+          chartObj2 = new Chart(document.getElementById('chartMangsa').getContext('2d'), { type: 'line', data: { labels: res.timeline.mangsa.labels, datasets: [{ data: res.timeline.mangsa.data, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', borderWidth: 2, fill: true, pointRadius: 3, pointBackgroundColor: '#fff', tension:0.3 }] }, options: chartOptions });
+        })
+        .catch(err => {
+          document.getElementById('loadingOverlay').innerHTML = `<div class="text-danger fw-bold"><i class="fas fa-exclamation-triangle fs-1 mb-3"></i><br>Ralat menghubungi Pangkalan Data API. Sila semak URL.</div>`;
+          console.error("Fetch API Error:", err);
+        });
+    };
+  </script>
+</body>
+</html>
