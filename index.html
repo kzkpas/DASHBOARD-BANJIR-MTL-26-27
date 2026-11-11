@@ -16,134 +16,108 @@
   
   <style>
     :root {
-      /* Tema Glassmorphism Lembut (Soft Light/Frost) */
-      --bg-main: #e2e8f0; /* Kelabu lembut */
-      --glass-bg: rgba(255, 255, 255, 0.7); /* Putih lutsinar */
+      --bg-main: #e2e8f0; 
+      --glass-bg: rgba(255, 255, 255, 0.7); 
       --glass-border: rgba(255, 255, 255, 0.5);
       --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-      
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --text-dark: #0f172a;
-      
-      --accent-blue: #0ea5e9;
-      --accent-orange: #f97316;
-      --accent-red: #ef4444;
-      --accent-green: #10b981;
+      --text-main: #334155; --text-muted: #64748b; --text-dark: #0f172a;
+      --accent-blue: #0ea5e9; --accent-orange: #f97316; --accent-red: #ef4444; --accent-green: #10b981;
     }
     
     body { 
       background-color: var(--bg-main); 
       background-image: linear-gradient(135deg, #e0e7ff 0%, #e2e8f0 100%);
-      color: var(--text-main); 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-      min-height: 100vh;
-      overflow-x: hidden;
+      color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; 
+      min-height: 100vh; overflow-x: hidden;
     }
 
     h1, h2, h3, .kpi-value, .brand-title { font-family: 'Space Grotesk', sans-serif; }
 
-    /* NAVBAR LUTSINAR */
-    .top-nav {
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--glass-border);
-      padding: 15px 30px;
-      position: sticky; top: 0; z-index: 1000;
-      display: flex; justify-content: space-between; align-items: center;
-      box-shadow: var(--glass-shadow);
-    }
+    /* NAVBAR & SIDEBAR */
+    .top-nav { background: var(--glass-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border); padding: 15px 30px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--glass-shadow); }
     .brand-logo { font-size: 1.4rem; font-weight: 700; color: var(--text-dark); letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
     .brand-logo i { color: var(--accent-blue); }
     .brand-subtitle { font-family: 'Plus Jakarta Sans'; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-    /* SIDEBAR KACA (FLOATING) */
-    .nexus-sidebar {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-right: 1px solid var(--glass-border);
-      height: calc(100vh - 70px);
-      position: fixed; width: 250px; padding: 20px 0;
-      box-shadow: var(--glass-shadow);
-    }
-    .nav-btn {
-      background: transparent; border: none; color: var(--text-muted); width: 100%; text-align: left;
-      padding: 12px 25px; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease;
-      border-left: 3px solid transparent; display: flex; align-items: center; gap: 12px;
-    }
+    .nexus-sidebar { background: var(--glass-bg); backdrop-filter: blur(16px); border-right: 1px solid var(--glass-border); height: calc(100vh - 70px); position: fixed; width: 250px; padding: 20px 0; box-shadow: var(--glass-shadow); }
+    .nav-btn { background: transparent; border: none; color: var(--text-muted); width: 100%; text-align: left; padding: 12px 25px; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease; border-left: 3px solid transparent; display: flex; align-items: center; gap: 12px; }
     .nav-btn:hover { color: var(--text-dark); background: rgba(255,255,255,0.4); }
     .nav-btn.active { color: var(--accent-blue); border-left-color: var(--accent-blue); background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, transparent 100%); }
 
-    /* KAWASAN UTAMA */
     .main-content { margin-left: 250px; padding: 30px; }
 
     /* KAD GLASSMORPHISM */
-    .glass-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px; padding: 20px; height: 100%;
-      box-shadow: var(--glass-shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    .glass-card { background: var(--glass-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; height: 100%; box-shadow: var(--glass-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .glass-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.1); }
-    
     .kpi-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 5px; display: flex; justify-content: space-between;}
     .kpi-value { font-size: 2.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 5px; color: var(--text-dark); }
     
-    /* GAYA TEKS */
-    .text-gradient-blue { color: var(--accent-blue); }
-    .text-gradient-orange { color: var(--accent-orange); }
+    .text-gradient-blue { color: var(--accent-blue); } .text-gradient-orange { color: var(--accent-orange); }
+    .border-top-red { border-top: 3px solid var(--accent-red); } .border-top-green { border-top: 3px solid var(--accent-green); }
     
-    /* AKSEN BORDER KAD */
-    .border-top-red { border-top: 3px solid var(--accent-red); }
-    .border-top-green { border-top: 3px solid var(--accent-green); }
+    .cyber-select { background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); color: var(--text-dark); border-radius: 8px; padding: 8px 15px; font-size: 0.85rem; outline: none; font-weight: 600; }
+    .cyber-btn { background: var(--accent-blue); border: none; border-radius: 8px; color: #fff; font-weight: 600; padding: 8px 20px; font-size: 0.85rem; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3); transition: all 0.3s ease; }
     
-    /* KAWALAN */
-    .cyber-select {
-      background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); color: var(--text-dark);
-      border-radius: 8px; padding: 8px 15px; font-size: 0.85rem; outline: none; font-weight: 600;
-    }
-    .cyber-select:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2); }
-    .cyber-btn {
-      background: var(--accent-blue); border: none; border-radius: 8px;
-      color: #fff; font-weight: 600; padding: 8px 20px; font-size: 0.85rem; letter-spacing: 0.5px;
-      box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3); transition: all 0.3s ease;
-    }
-    .cyber-btn:hover { box-shadow: 0 6px 15px rgba(14, 165, 233, 0.4); transform: translateY(-1px); }
-
-    /* JADUAL LUTSINA */
     .cyber-table { width: 100%; color: var(--text-main); font-size: 0.85rem; }
-    .cyber-table th { background: rgba(0,0,0,0.02); color: var(--text-muted); padding: 12px 15px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; font-size: 0.7rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .cyber-table th { background: rgba(0,0,0,0.02); color: var(--text-muted); padding: 12px 15px; text-transform: uppercase; font-weight: 700; font-size: 0.7rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
     .cyber-table td { padding: 12px 15px; border-bottom: 1px solid rgba(0,0,0,0.05); vertical-align: middle; font-weight: 500;}
-    .cyber-table tr:hover td { background: rgba(255,255,255,0.3); }
-
-    /* LENCANA (BADGES) */
+    
     .status-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
     .bg-cyber-red { background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.2); }
     .bg-cyber-green { background: rgba(16, 185, 129, 0.1); color: #059669; border: 1px solid rgba(16, 185, 129, 0.2); }
     .bg-cyber-yellow { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
 
-    /* PEMUAT (LOADER) */
     .loader-container { position: fixed; inset: 0; background: var(--bg-main); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
     .cyber-spinner { width: 50px; height: 50px; border: 4px solid rgba(14, 165, 233, 0.2); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
 
-    @media (max-width: 768px) {
-      .nexus-sidebar { display: none; }
-      .main-content { margin-left: 0; padding: 15px; }
-      .top-nav { padding: 15px; flex-wrap: wrap; gap: 15px;}
-    }
+    @media (max-width: 768px) { .nexus-sidebar { display: none; } .main-content { margin-left: 0; padding: 15px; } .top-nav { padding: 15px; flex-wrap: wrap; gap: 15px;} }
 
+    /* =======================================================
+       GAYA CETAKAN (PDF INFOGRAFIK 1 MUKA)
+       ======================================================= */
     #laporan-rasmi { display: none; }
     @media print {
-      body, .main-content, .top-nav, .nexus-sidebar, .glass-card { display: none !important; background: white !important; color: black !important; }
-      #laporan-rasmi { display: block !important; font-family: "Arial", sans-serif; color: black !important; font-size: 11pt; line-height: 1.5; background: white; padding: 20px;}
-      h4, h5, .section-title { color: black !important; font-weight: bold; margin-bottom: 10px; }
-      p, li { color: black !important; }
-      .section-title { text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px;}
+      @page { size: A4 landscape; margin: 10mm; }
+      body { background: #f8fafc !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; font-family: 'Plus Jakarta Sans', Arial, sans-serif; }
+      .main-content, .top-nav, .nexus-sidebar, #loader { display: none !important; }
+      
+      #laporan-rasmi { 
+        display: block !important; 
+        background: white; 
+        width: 100%; 
+        height: 100%;
+        color: #0f172a;
+      }
+      
+      .print-header {
+        background: #1e293b; color: white; padding: 15px 20px; border-radius: 8px 8px 0 0;
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 4px solid #0ea5e9; margin-bottom: 15px;
+      }
+      .print-title { font-size: 16pt; font-weight: 800; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+      .print-subtitle { font-size: 9pt; color: #cbd5e1; margin-top: 4px; }
+      
+      .print-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+      .print-card { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; }
+      
+      .print-section-title {
+        background: #0ea5e9; color: white; padding: 6px 12px; font-size: 9pt; font-weight: 700;
+        border-radius: 6px; display: inline-block; margin-bottom: 12px; text-transform: uppercase;
+      }
+      .print-card-alt { border-top: 3px solid #0ea5e9; }
+      
+      .print-data-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #cbd5e1; font-size: 9pt; }
+      .print-data-row:last-child { border-bottom: none; }
+      .print-data-label { color: #475569; font-weight: 600; }
+      .print-data-val { font-weight: 800; color: #0f172a; }
+      
+      .print-highlight { font-size: 24pt; font-weight: 800; color: #0ea5e9; line-height: 1; margin: 5px 0; }
+      
+      .print-footer { margin-top: 20px; font-size: 8pt; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+      
+      ul.print-list { margin: 0; padding-left: 15px; font-size: 8.5pt; }
+      ul.print-list li { margin-bottom: 4px; }
     }
   </style>
 </head>
@@ -160,20 +134,17 @@
   <nav class="top-nav">
     <div class="brand-logo">
       <i class="fas fa-shield-virus"></i> 
-      <div>
-        <div>CPRC <span class="text-gradient-blue">KEBANGSAAN</span></div>
-        <div class="brand-subtitle">Pusat Maklumat Banjir KKM</div>
-      </div>
+      <div><div>CPRC <span class="text-gradient-blue">KEBANGSAAN</span></div><div class="brand-subtitle">Pusat Maklumat Banjir</div></div>
     </div>
     <div class="d-flex align-items-center gap-3">
       <div class="text-end d-none d-md-block me-3">
-        <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Kemas Kini Terakhir</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Kemas Kini Terakhir</div>
         <div id="txt-tarikh" style="font-size: 0.85rem; color: var(--text-dark); font-weight: 700;">-</div>
       </div>
       <select id="stateFilter" class="cyber-select" onchange="renderUI()">
         <option value="Nasional">Nasional (Semua Negeri)</option>
       </select>
-      <button class="cyber-btn" onclick="generateLaporan()">
+      <button class="cyber-btn" onclick="triggerPrint()">
         <i class="fas fa-print me-2"></i> Jana PDF
       </button>
     </div>
@@ -181,9 +152,7 @@
 
   <!-- SIDEBAR -->
   <div class="nexus-sidebar">
-    <div class="px-4 mb-4 mt-2">
-      <div class="brand-subtitle mb-2 fw-bold">MODUL PEMANTAUAN</div>
-    </div>
+    <div class="px-4 mb-4 mt-2"><div class="brand-subtitle mb-2 fw-bold">MODUL PEMANTAUAN</div></div>
     <button class="nav-btn active" onclick="switchTab('exec', this)"><i class="fas fa-chart-pie fa-fw"></i> Situasi Utama</button>
     <button class="nav-btn" onclick="switchTab('survelans', this)"><i class="fas fa-virus fa-fw"></i> Survelans Penyakit</button>
     <button class="nav-btn" onclick="switchTab('logistik', this)"><i class="fas fa-boxes fa-fw"></i> Infra & Logistik</button>
@@ -198,164 +167,56 @@
     <div id="exec" class="content-section">
       <div class="glass-card mb-4" style="background: rgba(14, 165, 233, 0.05); border-left: 4px solid var(--accent-blue);">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h5 class="mb-1 text-dark" id="banner-text-1" style="font-weight: 700;">Status Operasi Fasiliti Kesihatan</h5>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sistem mengesan fasiliti yang terjejas dan memerlukan tindakan susulan.</div>
-          </div>
-          <div class="text-end">
-            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Status Terkini</div>
-            <div class="fs-4 fw-bold"><span id="banner-terjejas" class="text-danger">0</span> <span style="font-size:1rem; font-weight:500; color:var(--text-muted)">Terjejas</span> <span class="mx-2 text-muted">|</span> <span id="banner-pulih" class="text-success">0</span> <span style="font-size:1rem; font-weight:500; color:var(--text-muted)">Pulih</span></div>
-          </div>
+          <div><h5 class="mb-1 text-dark" id="banner-text-1" style="font-weight: 700;">Status Operasi Fasiliti Kesihatan</h5><div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sistem mengesan fasiliti yang terjejas dan memerlukan tindakan susulan.</div></div>
+          <div class="text-end"><div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Status Terkini</div><div class="fs-4 fw-bold"><span id="banner-terjejas" class="text-danger">0</span> <span style="font-size:1rem; font-weight:500; color:var(--text-muted)">Terjejas</span> <span class="mx-2 text-muted">|</span> <span id="banner-pulih" class="text-success">0</span> <span style="font-size:1rem; font-weight:500; color:var(--text-muted)">Pulih</span></div></div>
         </div>
       </div>
-
       <div class="row g-4 mb-4">
-        <div class="col-md-3 col-6">
-          <div class="glass-card">
-            <div class="kpi-title">Jumlah Mangsa <span id="lbl-tarikh-mangsa"></span></div>
-            <div class="kpi-value text-gradient-blue" id="kpi-mangsa">-</div>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="glass-card">
-            <div class="kpi-title">PPS Aktif <span id="lbl-tarikh-pps"></span></div>
-            <div class="kpi-value text-gradient-orange" id="kpi-pps">-</div>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="glass-card border-top-red">
-            <div class="kpi-title">Tutup Operasi <span>Jadual 2.1</span></div>
-            <div class="kpi-value text-danger" id="kpi-f-tutup">-</div>
-          </div>
-        </div>
-        <div class="col-md-3 col-6">
-          <div class="glass-card border-top-green">
-            <div class="kpi-title">Beroperasi Semula <span>Jadual 2.1</span></div>
-            <div class="kpi-value text-success" id="kpi-f-operasi">-</div>
-          </div>
-        </div>
+        <div class="col-md-3 col-6"><div class="glass-card"><div class="kpi-title">Jumlah Mangsa <span id="lbl-tarikh-mangsa"></span></div><div class="kpi-value text-gradient-blue" id="kpi-mangsa">-</div></div></div>
+        <div class="col-md-3 col-6"><div class="glass-card"><div class="kpi-title">PPS Aktif <span id="lbl-tarikh-pps"></span></div><div class="kpi-value text-gradient-orange" id="kpi-pps">-</div></div></div>
+        <div class="col-md-3 col-6"><div class="glass-card border-top-red"><div class="kpi-title">Tutup Operasi <span>Jadual 2.1</span></div><div class="kpi-value text-danger" id="kpi-f-tutup">-</div></div></div>
+        <div class="col-md-3 col-6"><div class="glass-card border-top-green"><div class="kpi-title">Beroperasi Semula <span>Jadual 2.1</span></div><div class="kpi-value text-success" id="kpi-f-operasi">-</div></div></div>
       </div>
-
       <div class="row g-4 mb-4">
-        <div class="col-md-6">
-          <div class="glass-card">
-            <div class="kpi-title mb-4 text-dark"><i class="fas fa-chart-line text-warning me-2"></i> Trend PPS Dibuka</div>
-            <div style="height:250px;"><canvas id="chartPPS"></canvas></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="glass-card">
-            <div class="kpi-title mb-4 text-dark"><i class="fas fa-chart-area text-info me-2"></i> Trend Mangsa Di PPS</div>
-            <div style="height:250px;"><canvas id="chartMangsa"></canvas></div>
-          </div>
-        </div>
+        <div class="col-md-6"><div class="glass-card"><div class="kpi-title mb-4 text-dark"><i class="fas fa-chart-line text-warning me-2"></i> Trend PPS Dibuka</div><div style="height:250px;"><canvas id="chartPPS"></canvas></div></div></div>
+        <div class="col-md-6"><div class="glass-card"><div class="kpi-title mb-4 text-dark"><i class="fas fa-chart-area text-info me-2"></i> Trend Mangsa Di PPS</div><div style="height:250px;"><canvas id="chartMangsa"></canvas></div></div></div>
       </div>
-
       <div class="row g-4">
-        <div class="col-md-6">
-          <div class="glass-card p-0 overflow-hidden">
-            <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="border-color:rgba(0,0,0,0.05) !important;">
-              <h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">FASILITI TERJEJAS</h6>
-              <span class="status-badge bg-cyber-red">Kritikal</span>
-            </div>
-            <div id="list-fasiliti-terjejas"></div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="glass-card p-0 overflow-hidden">
-            <div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="border-color:rgba(0,0,0,0.05) !important;">
-              <h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">STATUS PEMULIHAN</h6>
-              <span class="status-badge bg-cyber-green">Selesai</span>
-            </div>
-            <div id="list-fasiliti-pulih"></div>
-          </div>
-        </div>
+        <div class="col-md-6"><div class="glass-card p-0 overflow-hidden"><div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="border-color:rgba(0,0,0,0.05) !important;"><h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">FASILITI TERJEJAS</h6><span class="status-badge bg-cyber-red">Kritikal</span></div><div id="list-fasiliti-terjejas"></div></div></div>
+        <div class="col-md-6"><div class="glass-card p-0 overflow-hidden"><div class="p-3 border-bottom d-flex justify-content-between align-items-center" style="border-color:rgba(0,0,0,0.05) !important;"><h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">STATUS PEMULIHAN</h6><span class="status-badge bg-cyber-green">Selesai</span></div><div id="list-fasiliti-pulih"></div></div></div>
       </div>
     </div>
 
-    <!-- MODUL 2: SURVELANS -->
+    <!-- MODUL LAIN DISOROK -->
     <div id="survelans" class="content-section" style="display:none;">
       <div class="row g-4 mb-4">
-        <div class="col-md-4">
-          <div class="glass-card">
-            <div class="kpi-title">Mangsa Diperiksa <span>Jadual 4.1</span></div>
-            <div class="kpi-value text-gradient-blue" id="k-sur-1">-</div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="glass-card border-top-red">
-            <div class="kpi-title">Kes Penyakit Dikesan <span>Jadual 4.2</span></div>
-            <div class="kpi-value text-danger" id="k-sur-2">-</div>
-            <div id="k-sur-2-detail" style="font-size: 0.75rem; color: #dc2626; margin-top: 10px; font-weight: 600;"></div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="glass-card">
-            <div class="kpi-title">PPS Diperiksa Vektor <span>Laporan 5.2</span></div>
-            <div class="kpi-value text-gradient-orange" id="k-sur-3">-</div>
-          </div>
-        </div>
+        <div class="col-md-4"><div class="glass-card"><div class="kpi-title">Mangsa Diperiksa <span>Jadual 4.1</span></div><div class="kpi-value text-gradient-blue" id="k-sur-1">-</div></div></div>
+        <div class="col-md-4"><div class="glass-card border-top-red"><div class="kpi-title">Kes Penyakit Dikesan <span>Jadual 4.2</span></div><div class="kpi-value text-danger" id="k-sur-2">-</div><div id="k-sur-2-detail" style="font-size: 0.75rem; color: #dc2626; margin-top: 10px; font-weight: 600;"></div></div></div>
+        <div class="col-md-4"><div class="glass-card"><div class="kpi-title">PPS Diperiksa Vektor <span>Laporan 5.2</span></div><div class="kpi-value text-gradient-orange" id="k-sur-3">-</div></div></div>
       </div>
-      
-      <div class="glass-card p-0 overflow-hidden table-state-container">
-        <div class="p-3 border-bottom" style="border-color:rgba(0,0,0,0.05) !important;"><h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">DATA AGREGAT NEGERI</h6></div>
-        <div class="table-responsive">
-          <table class="cyber-table">
-            <thead><tr><th>Negeri</th><th>Mangsa Diperiksa</th><th>Kes Penyakit</th><th>Diperiksa Vektor</th></tr></thead>
-            <tbody id="tbl-survelans"></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="glass-card p-0 overflow-hidden table-state-container"><div class="p-3 border-bottom" style="border-color:rgba(0,0,0,0.05) !important;"><h6 class="mb-0 text-dark fw-bold" style="font-size:0.9rem;">DATA AGREGAT NEGERI</h6></div><div class="table-responsive"><table class="cyber-table"><thead><tr><th>Negeri</th><th>Mangsa Diperiksa</th><th>Kes Penyakit</th><th>Diperiksa Vektor</th></tr></thead><tbody id="tbl-survelans"></tbody></table></div></div>
     </div>
 
-    <!-- MODUL 3: INFRA -->
-    <div id="logistik" class="content-section" style="display:none;">
-      <div class="row g-4">
-        <div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Pasukan RAT/RRT <span>J. 3.1</span></div><div class="kpi-value text-dark" id="k-inf-1">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Langgar Sampel Air <span>L. 5.1</span></div><div class="kpi-value text-danger" id="k-inf-2">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card"><div class="kpi-title">Premis Diperiksa <span>L. 5.3</span></div><div class="kpi-value text-gradient-orange" id="k-inf-3">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card"><div class="kpi-title">Pendidikan Kesihatan <span>J. 5.1</span></div><div class="kpi-value text-gradient-blue" id="k-inf-4">-</div></div></div>
-      </div>
-    </div>
-
-    <!-- MODUL 4: RENTAN -->
-    <div id="rentan" class="content-section" style="display:none;">
-      <div class="row g-4">
-        <div class="col-md-3"><div class="glass-card"><div class="kpi-title">Mangsa Masuk Wad <span>J. 4.3</span></div><div class="kpi-value text-gradient-orange" id="k-ren-1">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Dialisis Terjejas <span>L. 4.4</span></div><div class="kpi-value text-danger" id="k-ren-2">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Intervensi MHPSS <span>J. 4.4</span></div><div class="kpi-value text-success" id="k-ren-3">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card"><div class="kpi-title">Saringan Mental <span>J. 4.5</span></div><div class="kpi-value text-dark" id="k-ren-4">-</div></div></div>
-      </div>
-    </div>
-    
-    <!-- MODUL 5: ANGGOTA -->
-    <div id="anggota" class="content-section" style="display:none;">
-      <div class="row g-4">
-        <div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Total Terjejas</div><div class="kpi-value text-danger" id="k-st-1">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Hadir Bekerja</div><div class="kpi-value text-success" id="k-st-2">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Tidak Hadir</div><div class="kpi-value text-danger" id="k-st-3">-</div></div></div>
-        <div class="col-md-3"><div class="glass-card"><div class="kpi-title">Berada di PPS</div><div class="kpi-value text-gradient-blue" id="k-st-4">-</div></div></div>
-      </div>
-    </div>
-    
+    <div id="logistik" class="content-section" style="display:none;"><div class="row g-4"><div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Pasukan RAT/RRT <span>J. 3.1</span></div><div class="kpi-value text-dark" id="k-inf-1">-</div></div></div><div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Langgar Sampel Air <span>L. 5.1</span></div><div class="kpi-value text-danger" id="k-inf-2">-</div></div></div><div class="col-md-3"><div class="glass-card"><div class="kpi-title">Premis Diperiksa <span>L. 5.3</span></div><div class="kpi-value text-gradient-orange" id="k-inf-3">-</div></div></div><div class="col-md-3"><div class="glass-card"><div class="kpi-title">Pendidikan Kesihatan <span>J. 5.1</span></div><div class="kpi-value text-gradient-blue" id="k-inf-4">-</div></div></div></div></div>
+    <div id="rentan" class="content-section" style="display:none;"><div class="row g-4"><div class="col-md-3"><div class="glass-card"><div class="kpi-title">Mangsa Masuk Wad <span>J. 4.3</span></div><div class="kpi-value text-gradient-orange" id="k-ren-1">-</div></div></div><div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Dialisis Terjejas <span>L. 4.4</span></div><div class="kpi-value text-danger" id="k-ren-2">-</div></div></div><div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Intervensi MHPSS <span>J. 4.4</span></div><div class="kpi-value text-success" id="k-ren-3">-</div></div></div><div class="col-md-3"><div class="glass-card"><div class="kpi-title">Saringan Mental <span>J. 4.5</span></div><div class="kpi-value text-dark" id="k-ren-4">-</div></div></div></div></div>
+    <div id="anggota" class="content-section" style="display:none;"><div class="row g-4"><div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Total Terjejas</div><div class="kpi-value text-danger" id="k-st-1">-</div></div></div><div class="col-md-3"><div class="glass-card border-top-green"><div class="kpi-title">Hadir Bekerja</div><div class="kpi-value text-success" id="k-st-2">-</div></div></div><div class="col-md-3"><div class="glass-card border-top-red"><div class="kpi-title">Tidak Hadir</div><div class="kpi-value text-danger" id="k-st-3">-</div></div></div><div class="col-md-3"><div class="glass-card"><div class="kpi-title">Berada di PPS</div><div class="kpi-value text-gradient-blue" id="k-st-4">-</div></div></div></div></div>
   </div> 
 
-  <!-- BAHAGIAN CETAKAN PDF -->
+  <!-- BAHAGIAN CETAKAN PDF INFOGRAFIK (TERSEMBUNYI DI SKRIN) -->
   <div id="laporan-rasmi"></div>
 
   <script>
     var globalData = null;
     
     // =========================================================================
-    // ⚠️ PENTING: MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI
+    // ⚠️ MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI
     // =========================================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbx3mEqsfdm9qsF1O39x1YD2pL9LhEoJLm-0mFFO61N_Bqgb5zEsvBm7BplRo3sjCBJY/exec'; 
+    const API_URL = 'MASUKKAN_URL_WEB_APP_ANDA_DI_SINI'; 
 
     function fmt(num) { 
       if (num && typeof num === 'object' && num.total !== undefined) { num = num.total; }
       let n = Number(num);
-      if (isNaN(n)) return "0";
-      return n.toLocaleString('ms-MY'); 
+      return isNaN(n) ? "0" : n.toLocaleString('ms-MY'); 
     }
 
     function setWaktuTerkini() {
@@ -372,70 +233,144 @@
       if(btnElement) btnElement.classList.add('active');
     }
 
-    function generateLaporan() {
+    // FUNGSI JANA PDF (REKA BENTUK GRID INFOGRAFIK 1 MUKA)
+    function triggerPrint() {
       if(!globalData) return;
-      const d = new Date();
-      const tarikhSurat = d.toLocaleDateString('ms-MY', { day:'numeric', month:'long', year:'numeric' });
-      const masaSurat = d.toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', hour12: true });
-      let dNas = globalData.nasional;
       
-      let negeriTerjejas = [];
-      globalData.senaraiNegeri.forEach(st => { if(globalData.negeri[st].mangsa > 0 || globalData.negeri[st].pps > 0) negeriTerjejas.push(st); });
-      let teksNegeri = negeriTerjejas.length > 0 ? negeriTerjejas.join(', ') : "Tiada negeri aktif";
+      const selFilter = document.getElementById('stateFilter').value;
+      const dNas = (selFilter === 'Nasional') ? globalData.nasional : globalData.negeri[selFilter];
+      
+      const d = new Date();
+      const trk = d.toLocaleDateString('ms-MY', { day:'2-digit', month:'2-digit', year:'numeric' });
+      const ms = d.toLocaleTimeString('ms-MY', { hour:'2-digit', minute:'2-digit', hour12: true });
+      
+      let tarikhNadmaStr = globalData.tarikhNadma ? `(Data Nadma: ${globalData.tarikhNadma})` : '';
+      let tajukNegeri = (selFilter === 'Nasional') ? "SELURUH NEGARA" : `NEGERI ${selFilter.toUpperCase()}`;
 
+      // Kiraan Fasiliti Terjejas berdasarkan filter
+      let fList = globalData.fasiliti; 
+      if(selFilter !== 'Nasional') fList = fList.filter(f => f.negeri === selFilter);
       let countTutup = 0, countPindah = 0, countOperasi = 0;
-      globalData.fasiliti.forEach(f => {
+      fList.forEach(f => {
         let sc = f.status.toUpperCase();
         if(sc.includes('PINDAH')) countPindah++; else if(sc.includes('TUTUP') || sc.includes('TIDAK')) countTutup++; else countOperasi++;
       });
-      let jumlahFasiliti = globalData.fasiliti.length;
+      let jumlahFasiliti = fList.length;
 
-      let senaraiFasilitiHTML = (jumlahFasiliti > 0) ? `<ul style="font-size:10pt;">${globalData.fasiliti.map(f => `<li><b>${f.nama} (${f.negeri})</b> - Status: ${f.status}</li>`).join('')}</ul>` : `<p><i>Tiada rekod fasiliti terjejas dilaporkan setakat ini.</i></p>`;
-
-      let pecahanPenyakit = [];
-      if(dNas.penyakit.ari > 0) pecahanPenyakit.push(`${dNas.penyakit.ari} kes ARI`);
-      if(dNas.penyakit.skin > 0) pecahanPenyakit.push(`${dNas.penyakit.skin} kes Jangkitan Kulit`);
-      if(dNas.penyakit.age > 0) pecahanPenyakit.push(`${dNas.penyakit.age} kes AGE`);
-      if(dNas.penyakit.konj > 0) pecahanPenyakit.push(`${dNas.penyakit.konj} kes Konjunktivitis`);
-      if(dNas.penyakit.demam > 0) pecahanPenyakit.push(`${dNas.penyakit.demam} kes Demam`);
-      let teksPenyakit = (dNas.penyakit.total > 0) ? ` Pecahan kes penyakit yang dikesan adalah seperti berikut: <strong>${pecahanPenyakit.join(', ')}</strong>.` : "";
-
-      let senaraiWadHTML = ""; let jumlahWad = dNas.wad ? dNas.wad.total : 0;
+      // Pecahan Penyakit
+      let pTeks = [];
+      if(dNas.penyakit.ari > 0) pTeks.push(`ARI: ${dNas.penyakit.ari}`);
+      if(dNas.penyakit.skin > 0) pTeks.push(`KULIT: ${dNas.penyakit.skin}`);
+      if(dNas.penyakit.age > 0) pTeks.push(`AGE: ${dNas.penyakit.age}`);
+      if(dNas.penyakit.konj > 0) pTeks.push(`KONJ: ${dNas.penyakit.konj}`);
+      if(dNas.penyakit.demam > 0) pTeks.push(`DEMAM: ${dNas.penyakit.demam}`);
+      let pecahanPenyakitStr = pTeks.length > 0 ? pTeks.join(' | ') : "Tiada rekod terperinci";
+      
+      // Senarai Wad
+      let senaraiWadStr = ""; let jumlahWad = dNas.wad ? dNas.wad.total : 0;
       if (jumlahWad > 0 && dNas.wad.senarai.length > 0) {
-         let barisWad = dNas.wad.senarai.map(w => {
-            let jantina = [];
-            if(w.lelaki > 0) jantina.push(`${w.lelaki} Lelaki Dewasa`); if(w.perempuan > 0) jantina.push(`${w.perempuan} Perempuan Dewasa`); if(w.kanak > 0) jantina.push(`${w.kanak} Kanak-Kanak`);
-            return `<li><b>${w.hospital}</b> - ${w.jumlah} pesakit [${jantina.join(', ')}]${w.sebab ? ` <i>(${w.sebab})</i>` : ""}</li>`;
-         }).join('');
-         senaraiWadHTML = `<ul style="font-size:10pt; margin-top:5px; margin-bottom:10px;">${barisWad}</ul>`;
+         senaraiWadStr = `<ul class="print-list mt-1">` + dNas.wad.senarai.map(w => {
+            let j = []; if(w.lelaki>0) j.push(`${w.lelaki} L`); if(w.perempuan>0) j.push(`${w.perempuan} P`); if(w.kanak>0) j.push(`${w.kanak} K`);
+            return `<li><b>${w.hospital}:</b> ${w.jumlah} kes [${j.join(',')}]</li>`;
+         }).join('') + `</ul>`;
+      } else {
+         senaraiWadStr = `<div class="mt-1" style="font-size:8pt; color:#94a3b8;">Tiada rujukan wad direkodkan.</div>`;
       }
 
-      let htmlLaporan = `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <h4 style="margin: 0; font-size: 14pt;">LAPORAN HARIAN</h4><h4 style="margin: 0; font-size: 14pt;">BILIK GERAKAN BANJIR CPRC KEBANGSAAN</h4>
-          <p style="margin-top: 5px; font-weight: bold; font-size: 11pt;">TARIKH: ${tarikhSurat.toUpperCase()} &nbsp;|&nbsp; MASA: ${masaSurat.toUpperCase()}</p>
+      // Senarai Fasiliti
+      let fasTutupStr = fList.filter(f => f.status.toUpperCase().includes('TUTUP') || f.status.toUpperCase().includes('TIDAK')).map(f => `<li>${f.nama} (${f.daerah})</li>`).join('');
+      if(fasTutupStr === '') fasTutupStr = '<li>Tiada fasiliti ditutup</li>';
+
+      let htmlPrint = `
+        <div class="print-header">
+          <div>
+            <div class="print-title">LAPORAN RINGKAS BENCANA - ${tajukNegeri}</div>
+            <div class="print-subtitle">KEMENTERIAN KESIHATAN MALAYSIA &nbsp;|&nbsp; TARIKH: ${trk} &nbsp;|&nbsp; MASA KEMAS KINI: ${ms}</div>
+          </div>
+          <div style="text-align:right;">
+             <div style="font-size:24pt; font-weight:800; line-height:1;"><i class="fas fa-shield-virus"></i> CPRC</div>
+          </div>
         </div>
-        <div class="section-title">1.0 SITUASI SEMASA BANJIR</div>
-        <p>Pada jam ${masaSurat}, ${tarikhSurat}, terdapat <strong>${negeriTerjejas.length} buah negeri</strong> yang terkesan akibat banjir iaitu <strong>${teksNegeri}</strong>. Terdapat seramai <strong>${fmt(dNas.mangsa)} mangsa</strong> banjir telah direkodkan di peringkat nasional dengan jumlah Pusat Pemindahan Sementara (PPS) yang aktif sebanyak <strong>${fmt(dNas.pps)} buah PPS</strong>.</p>
-        <div class="section-title">2.0 FASILITI KESIHATAN TERJEJAS</div>
-        <p>Sejumlah <strong>${jumlahFasiliti} fasiliti kesihatan</strong> telah dilaporkan terjejas akibat banjir. Daripada jumlah tersebut, sebanyak <strong>${countTutup} fasiliti ditutup operasi sepenuhnya</strong>, <strong>${countPindah} fasiliti terpaksa dipindahkan lokasinya</strong>, dan <strong>${countOperasi} fasiliti masih beroperasi seperti biasa</strong> walaupun dilanda banjir.</p>
-        ${senaraiFasilitiHTML}
-        <div class="section-title">3.0 PASUKAN PERUBATAN KECEMASAN (EMT) DI PPS</div>
-        <p>Sebanyak <strong>${fmt(dNas.pasukan)} Pasukan Perubatan Kecemasan (EMT) / RAT / RRT</strong> telah dimobilisasi ke PPS yang dibuka untuk memberikan perkhidmatan rawatan perubatan awam dan pencegahan wabak penyakit berjangkit kepada mangsa banjir.</p>
-        <div class="section-title">4.0 PERKHIDMATAN PENJAGAAN KESIHATAN SEMASA BANJIR</div>
-        <p>Setakat ini, seramai <strong>${fmt(dNas.diperiksa)} mangsa</strong> telah diperiksa di PPS. Terdapat <strong>${fmt(dNas.penyakit.total)} kes penyakit</strong> telah dikesan secara kumulatif dalam kalangan mangsa di seluruh fasiliti dan PPS.${teksPenyakit}</p>
-        <p style="margin-bottom:2px;">Selain itu, seramai <strong>${fmt(jumlahWad)} pesakit dari PPS</strong> telah dirujuk untuk kemasukan ke wad hospital berikutan komplikasi atau simptom yang memerlukan rawatan lanjut, manakala sebanyak <strong>${fmt(dNas.dialisis)} kemudahan pusat dialisis</strong> dilaporkan terjejas operasinya.</p>
-        ${senaraiWadHTML}
-        <p>Bagi perkhidmatan sokongan Kesihatan Mental dan Sokongan Psikososial (MHPSS), pasukan bertugas telah berjaya menjalankan sejumlah <strong>${fmt(dNas.mhpss)} sesi intervensi psikososial</strong> serta <strong>${fmt(dNas.mental)} sesi saringan kesihatan mental</strong> ke atas mangsa.</p>
-        <div class="section-title">5.0 AKTIVITI KESIHATAN AWAM DI PPS</div>
-        <p>Aktiviti perkhidmatan kesihatan awam dan pemantauan persekitaran giat dijalankan. Ini termasuk pemantauan keselamatan kualiti air minum di mana sebanyak <strong>${fmt(dNas.air)} pelanggaran sampel air</strong> dikesan. Bagi aktiviti kawalan Vektor pula, sejumlah <strong>${fmt(dNas.vektor)} PPS</strong> telah selesai dijalankan pemeriksaan vektor. Manakala bagi Unit Keselamatan dan Kualiti Makanan, sejumlah <strong>${fmt(dNas.makanan)} premis makanan</strong> telah dilakukan pemeriksaan berkala.</p>
-        <div class="section-title">6.0 AKTIVITI PENDIDIKAN KESIHATAN</div>
-        <p>Secara kumulatif, sebanyak <strong>${fmt(dNas.pendidikan)} sesi pelbagai aktiviti pendidikan kesihatan</strong> telah dijalankan di kawasan terjejas banjir. Ini merangkumi penyampaian maklumat kesihatan secara terus, promosi kebersihan diri dan persekitaran di lokaliti mangsa yang terlibat.</p>
-        <br><br><table style="width: 100%; text-align: center; margin-top: 30px; font-weight: bold; font-size:10pt;"><tr><td style="width: 33%;">Disediakan oleh:<br><br><br><br>_________________________<br>Sekretariat Bilik Gerakan</td><td style="width: 33%;">Disemak oleh:<br><br><br><br>_________________________<br>Pegawai Penyelaras</td><td style="width: 33%;">Disahkan oleh:<br><br><br><br>_________________________<br>Ketua Penyelaras</td></tr></table>
+
+        <div class="print-grid">
+          <!-- KOLUM 1 -->
+          <div>
+            <div class="print-card print-card-alt mb-3">
+              <div class="print-section-title">1. SITUASI SEMASA MANGSA</div>
+              <div class="print-data-row"><span class="print-data-label">Jumlah Mangsa:</span><span class="print-data-val">${fmt(dNas.mangsa)}</span></div>
+              <div class="print-data-row"><span class="print-data-label">PPS Aktif dibuka:</span><span class="print-data-val">${fmt(dNas.pps)}</span></div>
+              <div class="mt-2" style="font-size:7pt; color:#64748b;">${tarikhNadmaStr}</div>
+            </div>
+
+            <div class="print-card mb-3">
+              <div class="print-section-title">2. SURVELANS PENYAKIT</div>
+              <div class="print-data-row"><span class="print-data-label">Mangsa Diperiksa:</span><span class="print-data-val">${fmt(dNas.diperiksa)}</span></div>
+              <div class="print-data-row" style="background:#fee2e2; padding:4px; margin-top:5px; border-radius:4px;"><span class="print-data-label text-danger">Kes Penyakit:</span><span class="print-data-val text-danger">${fmt(dNas.penyakit.total)}</span></div>
+              <div class="mt-1" style="font-size:7.5pt; font-weight:600; color:#dc2626;">PECAHAN: ${pecahanPenyakitStr}</div>
+            </div>
+            
+            <div class="print-card">
+               <div class="print-section-title" style="background:#f59e0b;">3. RUJUKAN WAD HOSPITAL</div>
+               <div class="print-highlight" style="color:#d97706; margin:0;">${fmt(jumlahWad)} <span style="font-size:10pt;">Pesakit</span></div>
+               ${senaraiWadStr}
+            </div>
+          </div>
+
+          <!-- KOLUM 2 -->
+          <div>
+            <div class="print-card mb-3" style="border-top:3px solid #ef4444;">
+              <div class="print-section-title" style="background:#ef4444;">4. FASILITI KESIHATAN TERJEJAS</div>
+              <div class="print-data-row"><span class="print-data-label">Jumlah Terjejas:</span><span class="print-data-val">${fmt(jumlahFasiliti)}</span></div>
+              <div class="print-data-row"><span class="print-data-label text-danger">Tutup Operasi:</span><span class="print-data-val text-danger">${fmt(countTutup)}</span></div>
+              <div class="print-data-row"><span class="print-data-label text-warning">Pindah Operasi:</span><span class="print-data-val text-warning">${fmt(countPindah)}</span></div>
+              <div class="print-data-row"><span class="print-data-label text-success">Beroperasi Semula:</span><span class="print-data-val text-success">${fmt(countOperasi)}</span></div>
+              
+              <div style="font-size:8pt; font-weight:700; margin-top:10px; border-bottom:1px solid #cbd5e1;">SENARAI FASILITI DITUTUP:</div>
+              <ul class="print-list mt-1 text-danger">
+                 ${fasTutupStr}
+              </ul>
+            </div>
+            
+            <div class="print-card">
+              <div class="print-section-title" style="background:#8b5cf6;">5. ANGGOTA KESIHATAN</div>
+              <div class="print-data-row"><span class="print-data-label">Total Terjejas:</span><span class="print-data-val">${fmt(dNas.staff.total)}</span></div>
+              <div class="print-data-row"><span class="print-data-label text-success">Hadir Bekerja:</span><span class="print-data-val text-success">${fmt(dNas.staff.hadir)}</span></div>
+              <div class="print-data-row"><span class="print-data-label text-danger">Tidak Hadir:</span><span class="print-data-val text-danger">${fmt(dNas.staff.tidakHadir)}</span></div>
+              <div class="print-data-row"><span class="print-data-label">Berada di PPS:</span><span class="print-data-val">${fmt(dNas.staff.pps)}</span></div>
+            </div>
+          </div>
+
+          <!-- KOLUM 3 -->
+          <div>
+            <div class="print-card mb-3">
+              <div class="print-section-title" style="background:#10b981;">6. AKTIVITI & LOGISTIK KESIHATAN</div>
+              <div class="print-data-row"><span class="print-data-label">Pasukan Digerakkan:</span><span class="print-data-val">${fmt(dNas.pasukan)} Pasukan</span></div>
+              <div class="print-data-row"><span class="print-data-label">PPS Diperiksa Vektor:</span><span class="print-data-val">${fmt(dNas.vektor)} PPS</span></div>
+              <div class="print-data-row"><span class="print-data-label">Pendidikan Kesihatan:</span><span class="print-data-val">${fmt(dNas.pendidikan)} Sesi</span></div>
+              <div class="print-data-row"><span class="print-data-label text-danger">Langgar Sampel Air:</span><span class="print-data-val text-danger">${fmt(dNas.air)} Sampel</span></div>
+              <div class="print-data-row"><span class="print-data-label">Premis Diperiksa:</span><span class="print-data-val">${fmt(dNas.makanan)} Premis</span></div>
+            </div>
+
+            <div class="print-card">
+              <div class="print-section-title" style="background:#ec4899;">7. SOKONGAN RENTAN (MHPSS)</div>
+              <div class="print-data-row"><span class="print-data-label">Intervensi Psikososial:</span><span class="print-data-val">${fmt(dNas.mhpss)} Sesi</span></div>
+              <div class="print-data-row"><span class="print-data-label">Saringan Mental:</span><span class="print-data-val">${fmt(dNas.mental)} Sesi</span></div>
+              <div class="print-data-row mt-2 border-top pt-2"><span class="print-data-label text-danger">Pusat Dialisis Terjejas:</span><span class="print-data-val text-danger">${fmt(dNas.dialisis)} Pusat</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="print-footer">
+          Disediakan oleh Bilik Gerakan Banjir CPRC Kebangsaan &copy; ${d.getFullYear()} | Laporan dijana secara automatik.
+        </div>
       `;
-      document.getElementById('laporan-rasmi').innerHTML = htmlLaporan;
-      window.print();
+
+      document.getElementById('laporan-rasmi').innerHTML = htmlPrint;
+      
+      // Tunggu DOM render sebelum print
+      setTimeout(() => { window.print(); }, 300);
     }
+    // =========================================================================
 
     function renderUI() {
       if(!globalData) return;
@@ -505,9 +440,7 @@
     window.onload = function() {
       setWaktuTerkini(); setInterval(setWaktuTerkini, 60000); Chart.register(ChartDataLabels);
       
-      // LIGHT GLASSMORPHISM CONFIG FOR CHARTS
-      Chart.defaults.color = '#64748b';
-      Chart.defaults.borderColor = 'rgba(0,0,0,0.05)';
+      Chart.defaults.color = '#64748b'; Chart.defaults.borderColor = 'rgba(0,0,0,0.05)';
       
       fetch(API_URL)
         .then(response => response.json())
@@ -517,20 +450,14 @@
           res.senaraiNegeri.forEach(st => { let opt = document.createElement('option'); opt.value = st; opt.innerText = st; sel.appendChild(opt); });
           
           document.getElementById('loader').style.display = 'none';
-          
           renderUI();
           
-          let chartOptions = { 
-            responsive: true, maintainAspectRatio: false, layout: { padding: { top: 25 } }, 
-            plugins: { legend: { display: false }, datalabels: { color: '#0f172a', align: 'top', offset: 4, font: { weight: 'bold', size: 11 } } }, 
-            scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } 
-          };
+          let chartOptions = { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 25 } }, plugins: { legend: { display: false }, datalabels: { color: '#0f172a', align: 'top', offset: 4, font: { weight: 'bold', size: 11 } } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } } };
           chartObj1 = new Chart(document.getElementById('chartPPS').getContext('2d'), { type: 'line', data: { labels: res.timeline.pps.labels, datasets: [{ data: res.timeline.pps.data, borderColor: '#f97316', backgroundColor: 'rgba(249, 115, 22, 0.1)', borderWidth: 3, fill: true, pointRadius: 4, pointBackgroundColor: '#fff', tension:0.4 }] }, options: chartOptions });
           chartObj2 = new Chart(document.getElementById('chartMangsa').getContext('2d'), { type: 'line', data: { labels: res.timeline.mangsa.labels, datasets: [{ data: res.timeline.mangsa.data, borderColor: '#0ea5e9', backgroundColor: 'rgba(14, 165, 233, 0.1)', borderWidth: 3, fill: true, pointRadius: 4, pointBackgroundColor: '#fff', tension:0.4 }] }, options: chartOptions });
         })
         .catch(err => {
           document.getElementById('loader').innerHTML = `<div class="text-danger text-center"><i class="fas fa-satellite-dish fs-1 mb-3 p-3 rounded-circle border border-danger" style="background:rgba(239, 68, 68, 0.1)"></i><h4 class="mt-3 text-dark fw-bold">SAMBUNGAN GAGAL</h4><p class="text-muted fw-bold">Ralat menghubungi pangkalan API CPRC.<br>Sila semak URL API anda.</p></div>`;
-          console.error("Fetch API Error:", err);
         });
     };
   </script>
